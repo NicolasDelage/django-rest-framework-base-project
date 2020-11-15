@@ -17,3 +17,6 @@
 
 ###make a migration
 `docker-compose run app sh -c "python manage.py makemigrations core"`
+
+###run docker container
+`docker-compose up`
