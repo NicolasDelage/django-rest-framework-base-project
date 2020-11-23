@@ -98,4 +98,19 @@ class Recipe(models.Model):
         return self.title
 
 
+# heroad models
+class Address(models.Model):
+    """Address object"""
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+    )
 
+    name = models.CharField(max_length=255)
+    address1 = models.CharField(max_length=255)
+    address2 = models.CharField(max_length=255)
+    zip_code = models.IntegerField()
+    city = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.city + ', ' + self.address1 + (' ' + self.address2 if self.address2 else '') + ', ' + str(self.zip_code)

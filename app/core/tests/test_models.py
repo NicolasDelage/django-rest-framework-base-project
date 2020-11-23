@@ -85,3 +85,20 @@ class ModelTests(TestCase):
         exp_path = f'uploads/recipe/{uuid}.jpg'
         self.assertEqual(file_path, exp_path)
 
+    # Test heroad
+
+    def test_address(self):
+        """Test the address string representation"""
+        address = models.Address.objects.create(
+            user=sample_user(),
+            name='Address test',
+            address1='Roubineau',
+            address2='',
+            zip_code=47120,
+            city='Soumensac'
+        )
+
+        address_concat = address.address1 + (' ' + address.address2 if address.address2 else '')
+        string_name = '{}, {}, {}'.format(address.city, address_concat, address.zip_code)
+        print(string_name)
+        self.assertEqual(str(address), string_name)
