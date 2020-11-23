@@ -114,3 +114,111 @@ class Address(models.Model):
 
     def __str__(self):
         return self.city + ', ' + self.address1 + (' ' + self.address2 if self.address2 else '') + ', ' + str(self.zip_code)
+
+
+class Run(models.Model):
+    """Run object"""
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+    )
+
+    date = models.DateTimeField()
+    departure_time = models.DateTimeField()
+    arriving_time = models.DateTimeField()
+    # Relation plusieurs à un.
+    # Plusieurs runs peuvent etre liés à une adresse
+    pick_up_location = models.ForeignKey(
+        Address,
+        related_name='pick_up_location',
+        on_delete=models.CASCADE,
+    )
+    deposit_location = models.ForeignKey(
+        Address,
+        related_name='deposit_location',
+        on_delete=models.CASCADE,
+    )
+    is_return_path = models.BooleanField(default=False)
+    comments = models.CharField(max_length=255)
+
+    master_run = models.ForeignKey(
+        'MasterRun',
+        on_delete=models.CASCADE
+    )
+
+    patient = models.ForeignKey(
+        'Patient',
+        on_delete=models.CASCADE
+    )
+
+    def __str__(self):
+        return str(self.date) + ' ' + str(self.deposit_location)
+
+
+class MasterRun(models.Model):
+    """MasterRun object"""
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        related_name='user',
+        on_delete=models.CASCADE,
+    )
+    comments = models.CharField(max_length=255)
+    date = models.DateTimeField()
+    users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='users')
+    am = models.BooleanField(default=False)
+    pm = models.BooleanField(default=False)
+
+    vehicle = models.ForeignKey(
+        'Vehicle',
+        on_delete=models.CASCADE
+    )
+
+    def __str__(self):
+        return str(self.users)
+
+
+class Vehicle(models.Model):
+    """Vehicle object"""
+
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+    )
+
+    TYPE_VEHICLE_CHOICES = [
+        ('VSL', 'VSL'),
+        ('Ambulance', 'Ambulance')
+    ]
+    type = models.CharField(
+        choices=TYPE_VEHICLE_CHOICES,
+        default='Ambulance',
+        max_length=9
+    )
+
+    license_plate = models.CharField(max_length=9)
+
+    def __str__(self):
+        return f'{self.type} {self.license_plate}'
+
+
+class Patient(models.Model):
+    """Patient object"""
+
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+    )
+
+    firstname = models.CharField(max_length=255)
+    lastname = models.CharField(max_length=255)
+    phone_number = models.CharField(max_length=10)
+    special = models.BooleanField(default=False)
+    description = models.CharField(max_length=255)
+
+    address = models.ForeignKey(
+        'Address',
+        on_delete=models.CASCADE
+    )
+
+    def __str__(self):
+        return f'{self.firstname} {self.lastname}'
