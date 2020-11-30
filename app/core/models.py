@@ -108,7 +108,7 @@ class Address(models.Model):
 
     name = models.CharField(max_length=255)
     address1 = models.CharField(max_length=255)
-    address2 = models.CharField(max_length=255)
+    address2 = models.CharField(max_length=255, null=True)
     zip_code = models.IntegerField()
     city = models.CharField(max_length=255)
 
