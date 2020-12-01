@@ -7,6 +7,7 @@ from heroad import views
 router = DefaultRouter()
 router.register('address', views.AddressViewSet)
 router.register('vehicle', views.VehicleViewSet)
+router.register('patient', views.PatientViewSet)
 app_name = 'heroad'
 
 urlpatterns = [

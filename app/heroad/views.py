@@ -6,7 +6,7 @@ from rest_framework.permissions import IsAuthenticated
 
 # Create your views here.
 
-from core.models import Address, Vehicle
+from core.models import Address, Vehicle, Patient
 from . import serializers
 
 
@@ -30,6 +30,19 @@ class VehicleViewSet(viewsets.ModelViewSet, mixins.CreateModelMixin):
 
     queryset = Vehicle.objects.all()
     serializer_class = serializers.VehicleSerializer
+
+    def perform_create(self, serializer):
+        """Create a new object"""
+        serializer.save(user=self.request.user)
+
+
+class PatientViewSet(viewsets.ModelViewSet, mixins.CreateModelMixin):
+    """Manage patient in the database"""
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+
+    queryset = Patient.objects.all()
+    serializer_class = serializers.PatientSerializer
 
     def perform_create(self, serializer):
         """Create a new object"""

@@ -108,7 +108,7 @@ class Address(models.Model):
 
     name = models.CharField(max_length=255)
     address1 = models.CharField(max_length=255)
-    address2 = models.CharField(max_length=255, null=True)
+    address2 = models.CharField(max_length=255, blank=True)
     zip_code = models.IntegerField()
     city = models.CharField(max_length=255)
 
@@ -213,7 +213,7 @@ class Patient(models.Model):
     lastname = models.CharField(max_length=255)
     phone_number = models.CharField(max_length=10)
     special = models.BooleanField(default=False)
-    description = models.CharField(max_length=255)
+    description = models.CharField(max_length=255, blank=True)
 
     address = models.ForeignKey(
         'Address',

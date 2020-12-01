@@ -21,7 +21,7 @@ def sample_vehicle(user, type='Ambulance', license_plate='AA-123-AA'):
 
 
 class PublicVehicleApiTests(TestCase):
-    """Test the publicly avaiblable ingredient API"""
+    """Test the publicly available vehicle API"""
 
     def setUp(self):
         self.client = APIClient()
@@ -130,6 +130,18 @@ class PrivateVehicleApiTests(TestCase):
             'user': self.user,
             'type': 'Bad',
             'license_plate': 'AA-123-AA'
+        }
+
+        res = self.client.post(VEHICLE_URL, payload)
+
+        self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_create_vehicle_with_too_long_license_plate(self):
+        """Test creating a vehicle with a more than 9 caracters license plate"""
+        payload = {
+            'user': self.user,
+            'type': 'VSL',
+            'license_plate': 'AA-1234-BB'
         }
 
         res = self.client.post(VEHICLE_URL, payload)
