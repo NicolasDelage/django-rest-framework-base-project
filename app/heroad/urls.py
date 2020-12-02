@@ -8,6 +8,7 @@ router = DefaultRouter()
 router.register('address', views.AddressViewSet)
 router.register('vehicle', views.VehicleViewSet)
 router.register('patient', views.PatientViewSet)
+router.register('run', views.RunViewSet)
 app_name = 'heroad'
 
 urlpatterns = [

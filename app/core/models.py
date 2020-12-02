@@ -139,7 +139,7 @@ class Run(models.Model):
         on_delete=models.CASCADE,
     )
     is_return_path = models.BooleanField(default=False)
-    comments = models.CharField(max_length=255)
+    comments = models.CharField(max_length=255, blank=True)
 
     master_run = models.ForeignKey(
         'MasterRun',
