@@ -162,11 +162,12 @@ class MasterRun(models.Model):
         related_name='user',
         on_delete=models.CASCADE,
     )
-    comments = models.CharField(max_length=255)
+    comments = models.CharField(max_length=255, blank=True)
     date = models.DateTimeField()
     users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='users')
     am = models.BooleanField(default=False)
     pm = models.BooleanField(default=False)
+    runs = models.ManyToManyField('Run')
 
     vehicle = models.ForeignKey(
         'Vehicle',

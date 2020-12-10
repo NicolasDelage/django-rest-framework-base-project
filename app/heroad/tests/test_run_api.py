@@ -38,13 +38,8 @@ def sample_vehicle(user, type='Ambulance', license_plate='AA-123-AA'):
     return Vehicle.objects.create(user=user, type=type, license_plate=license_plate)
 
 
-def sample_user(email='test@gmail.com', password='testpass'):
-    """Create a sample user"""
-    return get_user_model().objects.create_user(email, password)
-
-
 def detail_url(run_id):
-    """Return patient detail url"""
+    """Return run detail url"""
     return reverse('heroad:run-detail', args=[run_id])
 
 
@@ -60,7 +55,7 @@ class PublicRunApiTests(TestCase):
 
 
 class PrivateRunApiTests(TestCase):
-    """The the run API"""
+    """Test the run API"""
     def setUp(self):
         self.client = APIClient()
         self.user = get_user_model().objects.create_user(
@@ -72,8 +67,6 @@ class PrivateRunApiTests(TestCase):
 
     def test_retrieve_run_list(self):
         """Test retrieving run list"""
-        driver1 = sample_user('driver1@gmail.com')
-        driver2 = sample_user('driver2@gmail.com')
 
         Run.objects.create(
             user=self.user,

@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from core.models import Address, Vehicle, Patient, Run, MasterRun
+from core.models import Address, Vehicle, Patient, Run, MasterRun, User
 
 
 class AddressSerializer(serializers.ModelSerializer):
@@ -44,5 +44,18 @@ class RunSerializer(serializers.ModelSerializer):
     class Meta:
         model = Run
         fields = ('id', 'date', 'departure_time', 'arriving_time', 'pick_up_location', 'deposit_location',
-                  'is_return_path', 'comments', 'master_run', 'patient')
+                  'is_return_path', 'comments', 'master_run', 'patient', )
+        read_only_fields = ('id', )
+
+
+class MasterRunSerializer(serializers.ModelSerializer):
+    """Serializer for master run object"""
+
+    users = serializers.PrimaryKeyRelatedField(queryset=User.objects.all(), many=True)
+    vehicle = serializers.PrimaryKeyRelatedField(queryset=Vehicle.objects.all())
+    runs = serializers.PrimaryKeyRelatedField(queryset=Run.objects.all(), many=True)
+
+    class Meta:
+        model = MasterRun
+        fields = ('id', 'comments', 'date', 'users', 'am', 'pm', 'vehicle', 'runs', )
         read_only_fields = ('id', )
