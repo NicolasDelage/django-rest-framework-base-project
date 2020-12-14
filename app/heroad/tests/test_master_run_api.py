@@ -170,7 +170,7 @@ class PrivateMasterRunApiTests(TestCase):
             'date': make_aware(datetime.datetime.now()),
             'am': True,
             'vehicle': sample_vehicle(user=self.user).id,
-            'users': [driver1.id, driver2.id]
+            'drivers': [driver1.id, driver2.id]
         }
 
         res = self.client.post(MASTER_RUN_API, payload)
@@ -178,9 +178,9 @@ class PrivateMasterRunApiTests(TestCase):
         master_run = self.client.get(url)
 
         self.assertEqual(res.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(len(master_run.data['users']), 2)
-        self.assertIn(driver1.id, master_run.data['users'])
-        self.assertIn(driver2.id, master_run.data['users'])
+        self.assertEqual(len(master_run.data['drivers']), 2)
+        self.assertIn(driver1.id, master_run.data['drivers'])
+        self.assertIn(driver2.id, master_run.data['drivers'])
 
     def test_create_master_run_with_runs(self):
         """Test creating master runs with runs"""

@@ -152,7 +152,11 @@ class ModelTests(TestCase):
     def test_master_run(self):
         """Test the master run string representation"""
         user = sample_user()
-        user2 = sample_user('test2@gmail.com')
+        patient = sample_patient(user=user, firstname='Denise', address=sample_address(user=user))
+        patient2 = sample_patient(user=user, firstname='Hervé', address=sample_address(user=user))
+
+        driver = sample_user(email='driver@gmail.com')
+        driver2 = sample_user(email='driver2@gmail.com')
 
         master_run = models.MasterRun.objects.create(
             user=user,
@@ -162,9 +166,10 @@ class ModelTests(TestCase):
             date=datetime.datetime.now(tz=timezone.utc),
             vehicle=sample_vehicle(user=user)
         )
-        master_run.users.add(user, user2)
+        master_run.patients.add(patient, patient2)
+        master_run.drivers.add(driver, driver2)
 
-        self.assertEqual(str(master_run), str(master_run.users))
+        self.assertEqual(str(master_run), 'Matinée - ' + str(master_run.date))
 
     def test_vehicle(self):
         """Test the vehicle string representation"""

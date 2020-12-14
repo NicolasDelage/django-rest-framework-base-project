@@ -182,3 +182,24 @@ class PrivateRunApiTests(TestCase):
         res = self.client.delete(url)
 
         self.assertEqual(res.status_code, status.HTTP_204_NO_CONTENT)
+
+    def test_filter_run_by_location(self):
+        """Test retrieving a run by is location"""
+        run1 = sample_run(user=self.user, deposit_location=sample_address(user=self.user),
+                         pick_up_location=sample_address(user=self.user, address1='Roubineau'),
+                         master_run=sample_master_run(user=self.user, vehicle=sample_vehicle(user=self.user)),
+                         patient=sample_patient(user=self.user, address=sample_address(user=self.user)))
+
+        run2 = sample_run(user=self.user, deposit_location=sample_address(user=self.user),
+                         pick_up_location=sample_address(user=self.user, address1='Mamie michon'),
+                         master_run=sample_master_run(user=self.user, vehicle=sample_vehicle(user=self.user)),
+                         patient=sample_patient(user=self.user, address=sample_address(user=self.user)))
+
+        res = self.client.get(RUN_URL,
+                              {'pick_up_location': 'Roubineau'})
+
+        serializer1 = RunSerializer(run1)
+        serializer2 = RunSerializer(run2)
+
+        self.assertIn(serializer1.data, res.data)
+        self.assertNotIn(serializer2, res.data)

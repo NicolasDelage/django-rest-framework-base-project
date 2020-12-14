@@ -143,7 +143,8 @@ class Run(models.Model):
 
     master_run = models.ForeignKey(
         'MasterRun',
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        blank=True
     )
 
     patient = models.ForeignKey(
@@ -164,7 +165,8 @@ class MasterRun(models.Model):
     )
     comments = models.CharField(max_length=255, blank=True)
     date = models.DateTimeField()
-    users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='users')
+    patients = models.ManyToManyField('Patient')
+    drivers = models.ManyToManyField('User', blank=True)
     am = models.BooleanField(default=False)
     pm = models.BooleanField(default=False)
     runs = models.ManyToManyField('Run')
@@ -175,7 +177,7 @@ class MasterRun(models.Model):
     )
 
     def __str__(self):
-        return str(self.users)
+        return str(('Matinée' if self.am else 'Après-midi' + ' - ') + ' - ' + str(self.date))
 
 
 class Vehicle(models.Model):

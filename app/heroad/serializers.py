@@ -51,11 +51,11 @@ class RunSerializer(serializers.ModelSerializer):
 class MasterRunSerializer(serializers.ModelSerializer):
     """Serializer for master run object"""
 
-    users = serializers.PrimaryKeyRelatedField(queryset=User.objects.all(), many=True)
+    patients = serializers.PrimaryKeyRelatedField(queryset=Patient.objects.all(), many=True)
     vehicle = serializers.PrimaryKeyRelatedField(queryset=Vehicle.objects.all())
     runs = serializers.PrimaryKeyRelatedField(queryset=Run.objects.all(), many=True)
 
     class Meta:
         model = MasterRun
-        fields = ('id', 'comments', 'date', 'users', 'am', 'pm', 'vehicle', 'runs', )
+        fields = ('id', 'comments', 'date', 'patients', 'am', 'pm', 'vehicle', 'runs', 'drivers', )
         read_only_fields = ('id', )
