@@ -1,22 +1,47 @@
-# heroad-django-api
+# django-rest-framework-base-project
 
-#### build docker image
-`docker build .`
+This is a base django rest framework comes with docker everything we need to have fun!
 
-#### build image using docker compose configuration
-`docker-compose build`
+##Features
+By default, this project structure includes:
 
-#### create django project
-`docker-compose run app sh -c "django-admin.py startproject app ."`
+Python:
 
-###launch django test
-`docker-compose run app sh -c "python manage.py test"`
+- python:3.7-alpine
 
-###create core app
-`docker-compose run app sh -c "python manage.py startapp core"`
+DB Postgres:
 
-###make a migration
-`docker-compose run app sh -c "python manage.py makemigrations core"`
+- postgres:10-alpine
 
-###run docker container
-`docker-compose up`
+Requirements:
+
+- Django>=3.1.3,<3.1.4
+- djangorestframework>=3.12.2,<3.12.3
+- psycopg2>=2.7.5,<2.8.0
+- flake8>=3.6.0,<3.7.0
+- Pillow>=5.3.0,<5.4.0
+- django-filter>=2.4.0
+- django-cors-headers>=3.6.0
+
+Core app:
+
+- Defining and testing default user model
+- Waiting for db command
+
+User app:
+
+- Defining and testing user and token views/serializers 
+
+##Example of some docker commands:
+Build docker image
+- `docker build .`
+
+Build image using docker compose configuration
+- `docker-compose build`
+
+Run docker container
+- `docker-compose up`
+- `docker-compose down`
+
+Execute python commands
+- `docker-compose run app sh -c "<command>"`
